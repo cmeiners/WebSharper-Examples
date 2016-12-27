@@ -27,5 +27,6 @@ module Server =
           epochLocal=i.epoch.ToLocalTime();
           epoch=i.epochLocal.ToUniversalTime()}
         async {
+            eprintfn "%A" i
             return (Kinds.FromSample i,i,i2)
         }

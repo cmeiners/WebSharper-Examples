@@ -54,15 +54,20 @@ module Site =
 
         let formatDate(i : System.DateTime) = i.ToShortDateString() + "." + i.ToShortTimeString()
 
+        let getKind (i : System.DateTime) =
+          if i.Kind = System.DateTimeKind.Utc then "UTC"
+          elif i.Kind = System.DateTimeKind.Local then "Local"
+          else "Unspecified"
+
         Templating.Main ctx EndPoint.Home "Home" [
             H1 [Text "Time Tests!"]
             Div [
               H2 [Text "Server Side"]
               Table[
-                TR[TD [Text "Local Time"]; TD [Text (formatDate now)]]
-                TR[TD [Text "UTC Time"]; TD [Text (formatDate nowUTC)]]
-                TR[TD [Text "Local Epoch"]; TD [Text (formatDate epochLocal)]]
-                TR[TD [Text "UTC Epoch"]; TD [Text (formatDate epoch)]]
+                TR[TD [Text <| (getKind now) + " Time"]; TD [Text (formatDate now)]]
+                TR[TD [Text <| (getKind nowUTC) + " Time"]; TD [Text (formatDate nowUTC)]]
+                TR[TD [Text <| (getKind epochLocal) + " Epoch"]; TD [Text (formatDate epochLocal)]]
+                TR[TD [Text <| (getKind epoch) + " Epoch"]; TD [Text (formatDate epoch)]]
               ]
             ]
             Div [ClientSide <@ Client.Main(now,nowUTC,epochLocal,epoch) @>]
